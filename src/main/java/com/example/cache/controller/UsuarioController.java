@@ -2,6 +2,7 @@ package com.example.cache.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import com.example.cache.service.UsuarioService;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+	Logger logger = Logger.getLogger(UsuarioController.class);
+	
 	@Autowired
 	private UsuarioService usuarioService;
 
@@ -27,7 +30,8 @@ public class UsuarioController {
 	public ResponseEntity<List<Usuario>> getAllUsuarios() {
 		try {
 			return new ResponseEntity<>(usuarioService.getAllUsuarios(), HttpStatus.OK);
-		} catch (Exception e) {
+		} catch (Exception ex) {
+			logger.error(ex, ex);
 			// log.error("Error retrieving message", e);
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -36,20 +40,26 @@ public class UsuarioController {
 	@RequestMapping(value = "/findById/{id}")
 	public ResponseEntity<Usuario> getUsuario(@PathVariable("id") Long id) {
 		
-		Usuario Usuario = usuarioService.findById(id);
-		if (Usuario == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		try {
+			Usuario Usuario = usuarioService.findById(id);
+			if (Usuario == null) {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			}
+			return new ResponseEntity<Usuario>(Usuario, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error(ex, ex);
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<Usuario>(Usuario, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Usuario> inserir(@RequestBody Usuario Usuario) {
+	public ResponseEntity<Usuario> inserir(@RequestBody Usuario usuario) {
 		try {
-			Usuario = usuarioService.salvar(Usuario);
-			return new ResponseEntity<>(Usuario, HttpStatus.OK);
-		} catch (Exception e) {
+			usuario = usuarioService.salvar(usuario);
+			return new ResponseEntity<>(usuario, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error(ex, ex);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -57,11 +67,12 @@ public class UsuarioController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<Usuario> alterar(@RequestBody Usuario Usuario) {
+	public ResponseEntity<Usuario> alterar(@RequestBody Usuario usuario) {
 		try {
-			Usuario = usuarioService.salvar(Usuario);
-			return new ResponseEntity<>(Usuario, HttpStatus.OK);
-		} catch (Exception e) {
+			usuario = usuarioService.salvar(usuario);
+			return new ResponseEntity<>(usuario, HttpStatus.OK);
+		} catch (Exception ex) {
+			logger.error(ex, ex);
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 

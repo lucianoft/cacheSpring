@@ -23,60 +23,82 @@ public class CacheSpringApplicationTests {
 
 	@Test
 	public void insert(){
+		System.out.println("insert");
+		Usuario usuario = inserir("luciano", "1");
+		System.out.println(usuario);
+		
+		usuario = inserir("alicia", "1");
+		System.out.println(usuario);
+		
+		usuario = inserir("murilo", "1");
+		System.out.println(usuario);
+		
+		usuario = inserir("janne", "1");
+		System.out.println(usuario);
+
+		
+		Long idUsuario = 1L;
+		
+		System.out.println("alterar");
+		System.out.println(usuario);
+		usuario = alterar(1L, "2");
+		System.out.println(usuario);
+		
+		System.out.println("findById");
+		System.out.println(usuario);
+		usuario = findById(1L);
+		System.out.println(usuario);
+		
+		usuario = findById(3L);
+		System.out.println(usuario);
+		
+		usuario = findById(2L);
+		System.out.println(usuario);
+		
+		usuario = findById(1L);
+		System.out.println(usuario);
+		
+		usuario = findById(3L);
+		System.out.println(usuario);
+		
+		usuario = findById(2L);
+		System.out.println(usuario);
+		
+		usuario = findById(1L);
+		System.out.println(usuario);
+	}
+	
+	private Usuario inserir(String login, String senha){
 		Usuario usuario = new Usuario();
-		usuario.setLogin("luciano");
-		usuario.setSenha("1");
+		usuario.setLogin(login);
+		usuario.setSenha(senha);
 		ResponseEntity<Usuario> responseEntity = usuarioController.inserir(usuario);
 		usuario = responseEntity.getBody();
-		System.out.println(usuario);
+		
+		return usuario;
 	}
-	
-	@Test
-	public void alterar(){
-		Long idUsuario = 1L;
+
+	private Usuario findById(Long idUsuario){
 		
 		ResponseEntity<Usuario> responseEntity = usuarioController.getUsuario(idUsuario);
 		Usuario usuario = responseEntity.getBody();
-		System.out.println(usuario);
 		
-		usuario.setSenha("_1121");
-		responseEntity = usuarioController.alterar(usuario);
-		usuario = responseEntity.getBody();
-		System.out.println(usuario);
-		
-		responseEntity = usuarioController.getUsuario(idUsuario);
-		usuario = responseEntity.getBody();
-		System.out.println(usuario);
-		
-		usuario.setSenha("1121");
-		responseEntity = usuarioController.alterar(usuario);
-		usuario = responseEntity.getBody();
-		System.out.println(usuario);
-		
-		responseEntity = usuarioController.getUsuario(idUsuario);
-		usuario = responseEntity.getBody();
-		System.out.println(usuario);
+		return usuario;
 	}
 	
-	@Test
-	public void findById(){
-		Long idUsuario = 1L;
+	private Usuario alterar(Long idUsuario, String senha){
 		
-		ResponseEntity<Usuario> responseEntity = usuarioController.getUsuario(idUsuario);
-		Usuario usuario = responseEntity.getBody();
-		System.out.println(usuario);
+		Usuario usuario = findById(idUsuario);
+		usuario.setSenha(senha);
+		usuario = update(usuario);
 		
-		responseEntity = usuarioController.getUsuario(idUsuario);
+		return usuario;
+	}
+	private Usuario update(Usuario usuario){
+		
+		ResponseEntity<Usuario> responseEntity = usuarioController.alterar(usuario);
 		usuario = responseEntity.getBody();
-		System.out.println(usuario);
 		
-		responseEntity = usuarioController.getUsuario(idUsuario);
-		usuario = responseEntity.getBody();
-		System.out.println(usuario);
-		
-		
-		responseEntity = usuarioController.getUsuario(idUsuario);
-		usuario = responseEntity.getBody();
-		System.out.println(usuario);
+		return usuario;
 	}
 }
