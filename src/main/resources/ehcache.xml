@@ -2,18 +2,21 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="ehcache.xsd"
          updateCheck="false" monitoring="autodetect"
-         dynamicConfig="true" >
+         dynamicConfig="true" 
+         maxBytesLocalHeap="150M"
+         >
+         <!--   -->
     <diskStore path="java.io.tmpdir" />
 
     <defaultCache 
-        maxElementsInMemory="2" 
+        maxElementsInMemory="100" 
         eternal="true"
         overflowToDisk="false"
         memoryStoreEvictionPolicy="LFU"
          />
         
      <cache name="USUARIO_CACHE"
-		maxElementsInMemory="1"
+		maxElementsInMemory="20"
 		maxElementsOnDisk="1"
 		eternal="false"
 		overflowToDisk="true"

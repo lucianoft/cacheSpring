@@ -23,8 +23,11 @@ public class CacheSpringApplicationTests {
 
 	@Test
 	public void insert(){
+		Usuario usuario = null;
+		
+		/*
 		System.out.println("insert");
-		Usuario usuario = inserir("luciano", "1");
+		usuario = inserir("luciano", "1");
 		System.out.println(usuario);
 		
 		usuario = inserir("alicia", "1");
@@ -35,13 +38,12 @@ public class CacheSpringApplicationTests {
 		
 		usuario = inserir("janne", "1");
 		System.out.println(usuario);
-
-		
-		Long idUsuario = 1L;
+		*/
 		
 		System.out.println("alterar");
+		usuario = findById(1L);
 		System.out.println(usuario);
-		usuario = alterar(1L, "2");
+		usuario = alterar(1L, usuario.getSenha() + "2");
 		System.out.println(usuario);
 		
 		System.out.println("findById");
@@ -65,6 +67,18 @@ public class CacheSpringApplicationTests {
 		System.out.println(usuario);
 		
 		usuario = findById(1L);
+		System.out.println(usuario);
+		
+		usuario = findById(4L);
+		System.out.println(usuario);
+		
+		usuario = findById(5L);
+		System.out.println(usuario);
+		
+		usuario = findById(1L);
+		System.out.println(usuario);
+		
+		usuario = findById(2L);
 		System.out.println(usuario);
 	}
 	
